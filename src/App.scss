@@ -1,0 +1,25 @@
+body{
+  height: 100vh;
+}
+
+#root {
+  height: 100%;
+}
+
+.App {
+  height: 100%;
+  padding: 1em;
+}
+
+:root {
+  /* Color system */
+  --white: #ffffff;
+  --black: #0f1724; /* deep neutral for dark code blocks */
+  --code-bg: #f6f8fa; /* light gray for inline code */
+  --blockquote-border: #cbd5e1; /* muted blue-gray for blockquote accent */
+  --hr: #e6e9ef; /* subtle divider */
+
+  div:focus {
+    outline: none;
+  }
+}
