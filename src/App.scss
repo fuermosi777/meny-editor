@@ -1,5 +1,14 @@
-body{
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
   height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 #root {
@@ -9,6 +18,12 @@ body{
 .App {
   height: 100%;
   padding: 1em;
+
+  & > div {
+    display: flex;
+    flex-grow: 1;
+    height: 100%;
+  }
 }
 
 :root {
