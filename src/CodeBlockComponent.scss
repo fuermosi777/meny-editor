@@ -1,0 +1,18 @@
+.code-block {
+  position: relative;
+
+  .copy-button {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    background-color: transparent;
+  }
+
+  .copy-button:hover {
+    opacity: 0.7;
+  }
+}

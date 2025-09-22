@@ -1,9 +1,16 @@
 // src/Tiptap.tsx
-import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import { TaskItem, TaskList } from '@tiptap/extension-list'
-import { useEffect } from 'react'
-import './Tiptap.scss'
+import { useEditor, EditorContent, ReactNodeViewRenderer } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { TaskItem, TaskList } from "@tiptap/extension-list";
+import { useEffect } from "react";
+import "./Tiptap.scss";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import { createLowlight } from 'lowlight';
+import js from 'highlight.js/lib/languages/javascript';
+import CodeBlockComponent from "./CodeBlockComponent";
+
+const lowlight = createLowlight();
+lowlight.register('js', js);
 
 // Add a type declaration for the webkit messageHandlers on the window object
 // to satisfy TypeScript.
@@ -47,7 +54,14 @@ const decodeBase64 = (base64: string): string => {
 const Tiptap = () => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        codeBlock: false, // Disable default code block to avoid conflicts
+      }),
+      CodeBlockLowlight.extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(CodeBlockComponent);
+        },
+      }).configure({ lowlight }),
       TaskList,
       TaskItem.configure({ nested: true }),
     ],
@@ -57,13 +71,17 @@ const Tiptap = () => {
     // It sends the content back to Swift whenever the user makes a change.
     onUpdate: ({ editor }) => {
       const webkit = window.webkit;
-      if (webkit && webkit.messageHandlers && webkit.messageHandlers.DocChanged) {
+      if (
+        webkit &&
+        webkit.messageHandlers &&
+        webkit.messageHandlers.DocChanged
+      ) {
         // Tiptap outputs HTML, which is what we want to save.
         const contentAsHtml = editor.getHTML();
         webkit.messageHandlers.DocChanged.postMessage(contentAsHtml);
       }
     },
-  })
+  });
 
   // This useEffect hook is the core of the solution.
   // It runs once the editor is initialized.
@@ -97,7 +115,7 @@ const Tiptap = () => {
     // --- Signal to Swift that the webview is ready to receive commands ---
     const webkit = window.webkit;
     if (webkit && webkit.messageHandlers && webkit.messageHandlers.Loaded) {
-      webkit.messageHandlers.Loaded.postMessage('Editor is ready');
+      webkit.messageHandlers.Loaded.postMessage("Editor is ready");
     }
 
     // --- Cleanup ---
@@ -110,8 +128,7 @@ const Tiptap = () => {
     };
   }, [editor]); // The dependency array ensures this effect runs only when the editor instance changes.
 
+  return <EditorContent editor={editor} />;
+};
 
-  return <EditorContent editor={editor} />
-}
-
-export default Tiptap
+export default Tiptap;

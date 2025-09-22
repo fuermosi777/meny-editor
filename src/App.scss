@@ -38,3 +38,13 @@ body {
     outline: none;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --white: #181a1b;
+    --black: #f6f8fa;
+    --code-bg: #23272e;
+    --blockquote-border: #374151;
+    --hr: #23272e;
+  }
+}
