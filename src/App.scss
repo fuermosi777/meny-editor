@@ -31,6 +31,7 @@ body {
   --white: #ffffff;
   --black: #0f1724; /* deep neutral for dark code blocks */
   --code-bg: #f6f8fa; /* light gray for inline code */
+  --pre-bg: #0f1724; /* dark background for code blocks */
   --blockquote-border: #cbd5e1; /* muted blue-gray for blockquote accent */
   --hr: #e6e9ef; /* subtle divider */
 
@@ -44,6 +45,7 @@ body {
     --white: #181a1b;
     --black: #f6f8fa;
     --code-bg: #23272e;
+    --pre-bg: #b6b6b6;
     --blockquote-border: #374151;
     --hr: #23272e;
   }
